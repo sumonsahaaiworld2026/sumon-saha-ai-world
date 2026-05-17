@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Sumon Saha AI World</title>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+
+    <div class="logo">
+      Sumon Saha AI World
+    </div>
+
+    <div class="nav-links">
+      <a href="#">Home</a>
+    </div>
+
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+
+    <!-- LEFT -->
+    <div class="hero-left">
+
+      <h1>
+        Remove Backgrounds<br>
+        in Seconds
+      </h1>
+
+      <p>
+        Upload your image and our AI instantly
+        removes the background with studio-quality results.
+      </p>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="upload-card">
+
+      <!-- Upload Box -->
+      <label for="fileInput" class="upload-box" id="uploadBox">
+
+        <div class="upload-content" id="uploadContent">
+
+          <div class="upload-icon">
+            ↑
+          </div>
+
+          <h2>Upload Image</h2>
+
+          <p>
+            Drag & Drop or Click to Browse
+          </p>
+
+        </div>
+
+        <!-- IMAGE PREVIEW -->
+        <img id="previewImage">
+
+      </label>
+
+      <input
+        type="file"
+        id="fileInput"
+        accept="image/*"
+      >
+
+      <!-- BUTTON -->
+      <button id="uploadBtn">
+        Remove Background
+      </button>
+
+    </div>
+
+  </section>
+
+  <script src="js/main.js"></script>
+
+</body>
+</html>
