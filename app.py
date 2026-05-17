@@ -9,6 +9,8 @@ import os
 import uuid
 import io
 
+port = int(os.environ.get("PORT", 8000))
+
 # =========================
 # APP SETUP
 # =========================
