@@ -9,8 +9,6 @@ import os
 import uuid
 import io
 
-port = int(os.environ.get("PORT", 8000))
-
 # =========================
 # APP SETUP
 # =========================
@@ -36,10 +34,15 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # =========================
-# LOAD MODEL (ONCE ONLY)
+# MODEL (LOAD SAFELY ON STARTUP)
 # =========================
 
-session = new_session("birefnet-general")
+session = None
+
+@app.on_event("startup")
+def load_model():
+    global session
+    session = new_session("birefnet-general")
 
 # =========================
 # API ENDPOINT
@@ -48,8 +51,9 @@ session = new_session("birefnet-general")
 @app.post("/remove-bg")
 async def remove_bg(file: UploadFile = File(...)):
 
-    file_id = str(uuid.uuid4())
+    global session
 
+    file_id = str(uuid.uuid4())
     output_path = f"{OUTPUT_FOLDER}/{file_id}.png"
 
     # =========================
@@ -57,7 +61,6 @@ async def remove_bg(file: UploadFile = File(...)):
     # =========================
 
     input_bytes = await file.read()
-
     image = Image.open(io.BytesIO(input_bytes)).convert("RGBA")
 
     # =========================
@@ -92,9 +95,3 @@ async def remove_bg(file: UploadFile = File(...)):
         media_type="image/png",
         filename="output.png"
     )
-
-import uvicorn
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
