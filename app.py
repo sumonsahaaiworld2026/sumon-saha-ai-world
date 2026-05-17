@@ -37,7 +37,12 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 # LOAD MODEL ONCE
 # =========================
 
-session = new_session("u2net_human_seg")
+session = None
+
+@app.on_event("startup")
+def load_model():
+    global session
+    session = new_session("u2net_human_seg")
 
 # =========================
 # API
