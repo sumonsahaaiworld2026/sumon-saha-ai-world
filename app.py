@@ -24,69 +24,52 @@ app.add_middleware(
 )
 
 # =========================
-# FOLDERS
+# FOLDERS (Render-safe)
 # =========================
 
-UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "outputs"
+UPLOAD_FOLDER = "/tmp/uploads"
+OUTPUT_FOLDER = "/tmp/outputs"
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 # =========================
-# MODEL (LOAD SAFELY ON STARTUP)
+# LOAD MODEL ONCE
 # =========================
 
-session = None
-
-@app.on_event("startup")
-def load_model():
-    global session
-    session = new_session("birefnet-general")
+session = new_session("u2net_human_seg")
 
 # =========================
-# API ENDPOINT
+# API
 # =========================
 
 @app.post("/remove-bg")
 async def remove_bg(file: UploadFile = File(...)):
 
-    global session
-
     file_id = str(uuid.uuid4())
     output_path = f"{OUTPUT_FOLDER}/{file_id}.png"
-
-    # =========================
-    # READ IMAGE
-    # =========================
 
     input_bytes = await file.read()
     image = Image.open(io.BytesIO(input_bytes)).convert("RGBA")
 
-    # =========================
-    # REMOVE BACKGROUND
-    # =========================
+    # upscale before processing
+    image = image.resize((image.width * 2, image.height * 2))
 
     output_image = remove(
         image,
         session=session,
-        alpha_matting=True,
-        alpha_matting_foreground_threshold=240,
-        alpha_matting_background_threshold=10,
-        alpha_matting_erode_size=10
+        alpha_matting=False
     )
 
-    # =========================
-    # EDGE SMOOTHING
-    # =========================
+    # downscale back
+    output_image = output_image.resize(
+        (output_image.width // 2, output_image.height // 2)
+    )
 
+    # smooth edges
     alpha = output_image.getchannel("A")
     alpha = alpha.filter(ImageFilter.GaussianBlur(1))
     output_image.putalpha(alpha)
-
-    # =========================
-    # SAVE OUTPUT
-    # =========================
 
     output_image.save(output_path)
 
