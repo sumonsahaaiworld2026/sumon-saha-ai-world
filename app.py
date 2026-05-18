@@ -68,12 +68,17 @@ async def remove_bg(file: UploadFile = File(...)):
     
         # Downscale large images
         image.thumbnail((MAX_SIZE, MAX_SIZE))
+
+        buffer = io.BytesIO()
+        image.save(buffer, format="PNG")
     
         output_image = remove(
             image,
             session=session,
             alpha_matting=False
         )
+
+        output_image = Image.open(io.BytesIO(output_bytes)).convert("RGBA")
     
         # downscale back
         # output_image = output_image.resize(
