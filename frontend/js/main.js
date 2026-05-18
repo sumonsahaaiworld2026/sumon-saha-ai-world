@@ -54,5 +54,5 @@ uploadBtn.addEventListener("click", () => {
   }
 
   window.location.href =
-    "processing.html";
+    "/frontend/processing.html";
 });
