@@ -1,5 +1,5 @@
 // 🔥 Replace this with your Render backend URL
-const API_URL = "bg-remover-api-production-a616.up.railway.app";
+const API_URL = "https://bg-remover-api-production-a616.up.railway.app";
 
 const progressFill = document.getElementById("progressFill");
 const progressText = document.getElementById("progressText");
