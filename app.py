@@ -67,7 +67,7 @@ async def remove_bg(file: UploadFile = File(...)):
         # image = image.resize((image.width * 2, image.height * 2))
     
         # Downscale large images
-            image.thumbnail((MAX_SIZE, MAX_SIZE))
+        image.thumbnail((MAX_SIZE, MAX_SIZE))
     
         output_image = remove(
             image,
