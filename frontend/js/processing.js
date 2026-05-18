@@ -67,7 +67,7 @@ async function processImage() {
       localStorage.setItem("resultImage", reader.result);
 
       setTimeout(() => {
-        window.location.href = "/frontend/result.html";
+        window.location.href = "./result.html";
       }, 800);
     };
 
