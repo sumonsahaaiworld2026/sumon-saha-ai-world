@@ -9,7 +9,7 @@ import os
 import uuid
 import io
 import asyncio
-import gc
+# import gc
 
 semaphore = asyncio.Semaphore(1)
 
