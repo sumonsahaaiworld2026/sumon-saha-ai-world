@@ -18,5 +18,5 @@ if (image) {
   alert("No image found");
 
   window.location.href =
-    "index.html";
+    "/frontend/index.html";
 }
