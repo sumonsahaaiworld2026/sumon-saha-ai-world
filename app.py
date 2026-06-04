@@ -68,6 +68,10 @@ def load_model():
 def root():
     return {"status": "running"}
 
+@app.get("/cors-test")
+async def cors_test():
+    return {"message": "cors works"}
+
 
 # =========================
 # REMOVE BACKGROUND API
